@@ -11,7 +11,6 @@ namespace Baraja\ClassMapGenerator;
  */
 final class ClassMapGenerator
 {
-
 	/**
 	 * Iterate over all files in the given directory searching for classes.
 	 *
