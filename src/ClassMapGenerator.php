@@ -15,7 +15,7 @@ final class ClassMapGenerator
 	 * Iterate over all files in the given directory searching for classes.
 	 *
 	 * @param string $dir The directory to search in or an iterator
-	 * @return string[]
+	 * @return array<class-string, string>
 	 */
 	public static function createMap(string $dir): array
 	{
@@ -24,7 +24,11 @@ final class ClassMapGenerator
 			if ($file->isFile() === false) {
 				continue;
 			}
-			if (pathinfo($path = $file->getRealPath() ?: $file->getPathname(), PATHINFO_EXTENSION) !== 'php') {
+			$path = (string) $file->getRealPath();
+			if ($path === '') { // fallback
+				$path = $file->getPathname();
+			}
+			if (pathinfo($path, PATHINFO_EXTENSION) !== 'php') {
 				continue;
 			}
 
@@ -46,7 +50,7 @@ final class ClassMapGenerator
 	 * Extract the classes in the given file.
 	 *
 	 * @param string $path The file to check
-	 * @return string[] The found classes
+	 * @return array<int, class-string> The found classes
 	 */
 	private static function findClasses(string $path): array
 	{
