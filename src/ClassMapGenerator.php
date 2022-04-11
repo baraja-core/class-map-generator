@@ -102,7 +102,12 @@ final class ClassMapGenerator
 							break;
 						}
 					}
-					$classes[] = ltrim($namespace . $class, '\\');
+					$className = ltrim($namespace . $class, '\\');
+					try {
+						assert(class_exists($className));
+						$classes[] = $className;
+					} catch (\Throwable) {
+					}
 					break;
 				default:
 					break;
